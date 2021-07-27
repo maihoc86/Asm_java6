@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+<!-- đưa thể main của trang checkout vào trang layout -->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order checkout</title>
+</head>
+<body>
+	<main th:object="${order}">
+		<div class="panel panel-primary">
+			<div class="panel-heading">[[#{chitietdonhang.title}]]</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="usr">[[#{chitietdonhang.id}]]:</label> <input
+							th:field="*{id}" readonly="readonly" />
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="usr">[[#{chitietdonhang.nameOrder}]]:</label> <br>
+						<input th:field="*{account.username}" readonly="readonly" />
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="usr">[[#{chitietdonhang.date}]]:</label> <input
+							th:field="*{createDate}" readonly="readonly" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<div>[[#{chitietdonhang.address}]]</div>
+						<textarea th:field="*{address}" class="form-control"
+							readonly="readonly"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading">[[#{chitietdonhang.detail}]]</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>[[#{chitietdonhang.nameProduct}]]</th>
+						<th>[[#{chitietdonhang.price}]]</th>
+						<th>[[#{chitietdonhang.discount}]]
+						<th>[[#{chitietdonhang.qty}]]</th>
+
+						<th>[[#{chitietdonhang.money}]]</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="detail : *{orderDetails}" th:object="${detail}">
+						<td>[[*{product.id}]]</td>
+						<td>[[*{product.name}]]</td>
+						<td>[[*{#numbers.formatDecimal(price,0, 'COMMA', 0,
+							'POINT')}]]đ</td>
+						<td
+							th:if="*{product.discount != null && product.discount.discount > 0}">[[*{product.discount.discount}]]%</td>
+						<td
+							th:unless="*{product.discount != null && product.discount.discount > 0}">0</td>
+						<td>[[*{quantity}]]</td>
+						<td
+							th:if="*{product.discount != null && product.discount.discount > 0}">[[*{#numbers.formatDecimal(
+							(price - (price * product.discount.discount) / 100) * quantity
+							,0, 'COMMA', 0, 'POINT')}]]đ</td>
+						<td
+							th:unless="*{product.discount != null && product.discount.discount > 0}">[[*{#numbers.formatDecimal(price*quantity,0,
+							'COMMA', 0, 'POINT')}]]đ</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+</body>
+</html>

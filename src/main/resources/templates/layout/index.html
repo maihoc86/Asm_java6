@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" th:fragment="dynamic(main)">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<title>Electro - HTML Ecommerce Template</title>
+
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700"
+	rel="stylesheet" />
+<!-- Bootstrap -->
+<link type="text/css" rel="stylesheet"
+	href="/assets/css/bootstrap.min.css" />
+<script src="/assets/js/sweetAlert.js"></script>
+<style type="text/css">
+.errorField {
+	color: red;
+}
+</style>
+<!-- Slick -->
+<link type="text/css" rel="stylesheet" href="/assets/css/slick.css" />
+<link type="text/css" rel="stylesheet"
+	href="/assets/css/slick-theme.css" />
+
+<!-- nouislider -->
+<link type="text/css" rel="stylesheet"
+	href="/assets/css/nouislider.min.css" />
+<!-- Angularjs -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+<!-- Custom stlylesheet -->
+<link type="text/css" rel="stylesheet" href="/assets/css/style.css" />
+<link type="text/css" rel="stylesheet"
+	href="/assets/css/social-button.css" />
+</head>
+<body ng-app="shopping-cart-app" ng-controller="ctrl">
+	<!-- NAVIGATION -->
+	<div class="container-fluid">
+		<div th:replace="/layout/_menu.html"></div>
+	</div>
+	<!-- /NAVIGATION -->
+	<main class="row">
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+						<div th:replace="/layout/_asside.html"></div>
+						<!-- /aside Widget -->
+					</div>
+					<div id="store" class="col-md-9">
+						<div th:replace="${main}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- FOOTER -->
+	<div class="container-fluid">
+		<footer th:replace="/layout/_footer.html"></footer>
+	</div>
+	<!-- /FOOTER -->
+
+	<!-- jQuery Plugins -->
+
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<script src="/assets/js/slick.min.js"></script>
+	<script src="/assets/js/nouislider.min.js"></script>
+	<script src="/assets/js/jquery.zoom.min.js"></script>
+	<script src="/assets/js/main.js"></script>
+	<script src="/assets/js/shopping-cart-app.js"></script>
+	<script type="text/javascript">
+		function PreviewImage() {
+			var oFReader = new FileReader();
+			oFReader
+					.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+			oFReader.onload = function(oFREvent) {
+				document.getElementById("uploadPreview").src = oFREvent.target.result;
+			};
+		};
+	</script>
+</body>
+</html>

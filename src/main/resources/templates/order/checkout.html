@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+<!-- đưa thể main của trang checkout vào trang layout -->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order checkout</title>
+</head>
+<body>
+	<main>
+		<div class="section">
+			<!-- container -->
+			<div class="container-fluid mt-100">
+				<div class="row" ng-if="cart.items.length == 0">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body cart">
+								<div class="col-sm-12 empty-cart-cls text-center">
+									<img src="https://i.imgur.com/dCdflKN.png" width="130"
+										height="130" class="img-fluid mb-4 mr-3">
+									<h3>
+										<strong>Giỏ hàng của bạn trống</strong>
+									</h3>
+									<h4>Hãy thêm sản phẩm sau đó quay lại ^^</h4>
+									<a href="/product/list"
+										class="btn btn-primary cart-btn-transform m-3" data-abc="true">Tiếp
+										tục mua hàng</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid" ng-if="cart.items.length > 0">
+				<!-- row -->
+				<form name="myForm" novalidate="novalidate">
+					<div class="row">
+
+						<div class="col-md-6" th:object=${#request.userPrincipal}>
+							<!-- Billing Details -->
+							<div class="billing-details">
+								<div class="section-title">
+									<h3 class="title">[[#{tt.addressForm}]]</h3>
+								</div>
+
+								<div class="form-group">
+									<input class="input" type="text" name="address"
+										pattern="^\S([a-zA-Z0-9\xC0-\uFFFF]{1,60}[ \-\']{0,1}){1,}$"
+										required="required" placeholder="Địa chỉ"
+										ng-model="order.address"> <span
+										ng-show="myForm.$submitted || myForm.address.$dirty"> <span
+										class="error" ng-show="myForm.address.$error.pattern">
+											<i class="fa fa-exclamation-circle"></i>
+											[[#{tt.validate.address}]]
+									</span> <span class="error" ng-show="myForm.address.$error.required">
+											<i class="fa fa-exclamation-circle"></i>
+											[[#{tt.validate.addressNull}]]
+									</span>
+									</span>
+
+
+								</div>
+								<div class="form-group">
+									<input class="input" type="tel" name="phone"
+										ng-model="order.account.phone" required="required"
+										placeholder="Điện thoại"
+										pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"> <span
+										ng-show="myForm.$submitted || myForm.phone.$dirty"> <span
+										class="error" ng-show="myForm.phone.$error.pattern"> <i
+											class="fa fa-exclamation-circle"></i>
+											[[#{tt.validate.phone}]]
+									</span> <span class="error" ng-show="myForm.phone.$error.required">
+											<i class="fa fa-exclamation-circle"></i>
+											[[#{tt.validate.phoneNull}]]
+									</span>
+									</span>
+								</div>
+							</div>
+							<!-- /Billing Details -->
+
+							<!-- Shiping Details -->
+
+							<!-- /Shiping Details -->
+
+							<!-- Order notes -->
+							<div class="order-notes">
+								<textarea class="input" placeholder="Ghi chú"></textarea>
+							</div>
+							<!-- /Order notes -->
+						</div>
+
+						<!-- Order Details -->
+						<div class="col-md-6 order-details">
+							<div class="section-title text-center">
+								<h3 class="title">[[#{tt.title}]]</h3>
+							</div>
+							<div class="order-summary">
+								<div class="order-col">
+									<div>
+										<strong>[[#{tt.name}]]</strong>
+									</div>
+
+									<div>
+										<strong>[[#{tt.price}]]</strong>
+									</div>
+								</div>
+								<div class="order-products">
+									<div class="order-col" ng-repeat="item in cart.items">
+										<div>{{item.qty}}x{{item.name}}</div>
+										<div
+											ng-if="item.discount != null && item.discount.discount != null">
+											{{item.price - (item.price * item.discount.discount) / 100 |
+											number}}đ</div>
+										<div
+											ng-if="item.discount == null && item.discount.discount == null">
+											{{item.price * item.qty | number}}</div>
+
+									</div>
+								</div>
+								<div class="order-col">
+									<div>[[#{tt.shipPrice}]]</div>
+									<div>
+										<strong>[[#{tt.free}]]</strong>
+									</div>
+								</div>
+								<div class="order-col">
+									<div>
+										<strong>[[#{tt.totalprice}]]</strong>
+									</div>
+									<div>
+										<strong class="order-total">{{cart.amount | number}}đ
+										</strong>
+									</div>
+								</div>
+							</div>
+							<div class="payment-method">
+								<div class="input-radio">
+									<input type="radio" name="payment" ng-model="payments.payments"
+										required="required" value="ATM" id="payment-1"> <label
+										for="payment-1"> <span></span> [[#{tt.atm}]]
+									</label>
+									<div class="caption">
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+											elit, sed do eiusmod tempor incididunt ut labore et dolore
+											magna aliqua.</p>
+									</div>
+								</div>
+								<div class="input-radio">
+									<input type="radio" name="payment" ng-model="payments.payments"
+										value="Cash" id="payment-2" required="required"> <label
+										for="payment-2"> <span></span> [[#{tt.cash}]]
+									</label>
+									<div class="caption">
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+											elit, sed do eiusmod tempor incididunt ut labore et dolore
+											magna aliqua.</p>
+									</div>
+								</div>
+								<div class="input-radio">
+									<input type="radio" name="payment" id="payment-3"
+										ng-model="payments.payments" value="Paypal"
+										required="required"> <label for="payment-3"> <span></span>
+										[[#{tt.paypal}]]
+									</label>
+									<div class="caption">
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+											elit, sed do eiusmod tempor incididunt ut labore et dolore
+											magna aliqua.</p>
+									</div>
+								</div>
+							</div>
+							<div class="input-checkbox">
+								<input type="checkbox" id="terms" name="terms" ng-model="term"
+									required="required"> <label for="terms"> <span></span>
+									[[#{tt.role}]] <a href="#">[[#{tt.dieukien}]]</a>
+								</label> <span class="error" ng-show="myForm.term.$error.required">
+									<i class="fa fa-exclamation-circle"></i> [[#{tt.validate.pay}]]
+								</span>
+							</div>
+							<div ng-hide="myForm.$invalid">
+								<a ng-click="order.purchase()" class="primary-btn order-submit">[[#{tt.thanhtoan}]]</a>
+							</div>
+						</div>
+						<!-- /Order Details -->
+					</div>
+				</form>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+	</main>
+</body>
+</html>

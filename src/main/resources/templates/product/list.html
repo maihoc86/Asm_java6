@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+<!-- đưa thể main của trang list vào trang layout -->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Product List</title>
+</head>
+<body>
+	<main>
+		<!-- store top filter -->
+		<div class="store-filter clearfix">
+			<div class="store-sort">
+				<form th:action="@{${uri}}" id="myForm" method="GET"
+					th:if="${valueSearch!=null and keySearch!=null and !valueSearch.empty and !keySearch.empty}">
+					<label> [[#{shop.order}]]: <select class="input-select"
+						id="order" name="sort">
+							<option>-------------------</option>
+							<option value="discount.discountDESC">[[#{shop.discount}]]</option>
+							<option value="priceDESC">[[#{shop.priceDESC}]]</option>
+							<option value="priceASC">[[#{shop.priceASC}]]</option>
+							<option value="createDateDESC">[[#{shop.newreleased}]]</option>
+					</select>
+					</label> <input hidden="hidden" name="key" th:value="${keySearch}" /> <input
+						hidden="hidden" name="keyword" th:value="${valueSearch}" />
+				</form>
+				<form th:action="@{${uri}}" id="myForm" method="GET"
+					th:unless="${valueSearch!=null and keySearch!=null and !valueSearch.empty and !keySearch.empty}">
+					<label> [[#{shop.order}]]: <select class="input-select"
+						id="order" name="sort">
+							<option>-------------------</option>
+							<option value="discount.discountDESC">[[#{shop.discount}]]</option>
+							<option value="priceDESC">[[#{shop.priceDESC}]]</option>
+							<option value="priceASC">[[#{shop.priceASC}]]</option>
+							<option value="createDateDESC">[[#{shop.newreleased}]]</option>
+					</select> <th:block th:if="${cid != null}">
+							<input hidden="hidden" name="cid" th:value="${cid}" />
+						</th:block>
+					</label>
+				</form>
+
+			</div>
+			<ul class="store-grid">
+				<li class="active"><i class="fa fa-th"></i></li>
+				<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+			</ul>
+		</div>
+		<!-- /store top filter -->
+
+		<!-- store products -->
+		<div class="row container-fluid">
+			<!-- product -->
+			<div th:each="e: ${items.content}" th:object="${e}"
+				class="col-md-4 col-xs-6">
+				<div class="product">
+					<a class="product-img" th:href="@{|/product/details/*{id}|}"> <img
+						th:src="@{|/assets/images/*{image}|}" alt="" />
+					</a>
+					<div class="product-label">
+						<span class="sale"
+							th:if="*{discount != null && discount.discount != null}">[[*{#numbers.formatDecimal(discount.discount,
+							0, 'COMMA', 0, 'POINT')}]]%</span> <span class="new">[[#{shop.new}]]</span>
+					</div>
+
+					<div class="product-body">
+						<p class="product-category">
+							<label> [[#{shop.product}]] </label>
+						</p>
+						<h3 class="product-name">
+							<a href="#">[[*{name}]]</a>
+						</h3>
+						<h4 class="product-price"
+							th:if="*{discount != null && discount.discount != null}">
+
+							[[*{#numbers.formatDecimal(price - (price * discount.discount) /
+							100, 0, 'COMMA', 0, 'POINT')}]]đ
+							<del class="product-old-price">[[*{#numbers.formatDecimal(price,
+								0, 'COMMA', 0, 'POINT')}]]đ</del>
+						</h4>
+						<h4 class="product-price"
+							th:unless="*{discount != null && discount.discount != null}">
+
+							[[*{#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')}]]đ</h4>
+						<div class="product-rating">
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+								class="fa fa-star"></i>
+						</div>
+						<div class="product-btns">
+							<a href="#"> <i class="fa fa-heart-o"></i><span
+								class="tooltipp">[[#{shop.addFav}]] </span>
+							</a> <a href="#"> <i class="fa fa-exchange"></i><span
+								class="tooltipp"> [[#{shop.compare}]] </span>
+							</a> <a th:href="@{|/product/details/*{id}|}" class="quick-view">
+								<i class="fa fa-eye"></i><span class="tooltipp">
+									[[#{shop.view}]] </span>
+							</a>
+						</div>
+					</div>
+					<div class="add-to-cart">
+						<button class="add-to-cart-btn"
+							th:attr="ng-click=@{|cart.add(${e.id})|}">
+							<i class="fa fa-shopping-cart"></i> [[#{shop.addCart}]]
+						</button>
+					</div>
+				</div>
+			</div>
+			<!-- /product -->
+			<!-- /product -->
+		</div>
+		<!-- /store products -->
+
+		<!-- store bottom filter -->
+		<div class="store-filter clearfix" th:if="${sort != null}">
+
+			<ul class="store-pagination"
+				th:if="${cid==null && keySearch == null && valueSearch == null}">
+				<li><a
+					th:href="@{/product/list(sort=${sort},size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/list(sort=${sort},size=${items.size}, page=${pageNumber-1})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/list(sort=${sort},size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+
+
+			<ul class="store-pagination"
+				th:if="${cid!=null && keySearch == null && valueSearch == null}">
+				<li><a
+					th:href="@{/product/list(cid=${cid},sort=${sort},size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/list(cid=${cid},sort=${sort},size=${items.size}, page=${pageNumber})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/list(cid=${cid},sort=${sort},size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+
+
+
+			<ul class="store-pagination"
+				th:if="${keySearch != null && valueSearch != null}">
+				<li><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},sort=${sort},size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},sort=${sort},size=${items.size}, page=${pageNumber-1})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},sort=${sort},size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+		</div>
+
+		<div class="store-filter clearfix" th:if="${sort == null}">
+
+			<ul class="store-pagination"
+				th:if="${cid==null && keySearch == null && valueSearch == null}">
+				<li><a
+					th:href="@{/product/list(size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/list(size=${items.size}, page=${pageNumber-1})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/list(size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+
+
+			<ul class="store-pagination"
+				th:if="${cid!=null && keySearch == null && valueSearch == null}">
+				<li><a
+					th:href="@{/product/list(cid=${cid},size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/list(cid=${cid},size=${items.size}, page=${pageNumber-1})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/list(cid=${cid},size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+
+
+
+			<ul class="store-pagination"
+				th:if="${keySearch != null && valueSearch != null}">
+				<li><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},size=${items.size}, page=${pagePresent -1})}">
+						<i class="fa fa-angle-left"></i>
+				</a></li>
+				<li th:if="${items.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}"
+					th:class="${pageNumber==items.number + 1} ? active"><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},size=${items.size}, page=${pageNumber -1})}"
+					th:text=${pageNumber}></a></li>
+				<li><a
+					th:href="@{/product/search(key=${keySearch},keyword=${valueSearch},size=${items.size}, page=${pagePresent +1})}"><i
+						class="fa fa-angle-right"></i></a></li>
+			</ul>
+		</div>
+		<!-- /store bottom filter -->
+	</main>
+</body>
+</html>

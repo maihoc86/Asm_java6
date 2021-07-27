@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quản lý tài khoản</title>
+</head>
+<body>
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="#"> <em class="fa fa-home"></em>
+			</a></li>
+			<li class="active">Quản lý tài khoản</li>
+		</ol>
+	</div>
+	<!--/.row-->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Quản lý tài khoản</h1>
+		</div>
+	</div>
+	<!--/.row-->
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Bảng</div>
+				<div class="panel-body table-responsive">
+					<div class="col-md-12 table-wrapper">
+						<div class="col-md-12 table-wrapper">
+							<div class="table-title">
+								<div class="row">
+									<div class="col-sm-4">
+										<h2>
+											Tài khoản <b>chi tiết</b>
+										</h2>
+									</div>
+									<div class="col-sm-8">
+										<button class="btn btn-primary" ng-click="initialize()">
+											<i class="material-icons">&#xE863;</i> <span>Tải lại
+												danh sách</span>
+										</button>
+										<a href="#" class="btn btn-secondary"><i
+											class="material-icons">&#xE24D;</i> <span>Xuất Excel</span></a>
+									</div>
+								</div>
+							</div>
+							<div class="table-filter">
+								<div class="row">
+									<div class="col-sm-3"></div>
+									<div class="col-sm-9">
+										<div class="filter-group">
+											<div class="filter-group">
+												<label>Tìm kiếm</label> <input type="text" name="text"
+													placeholder="Nhập username..."
+													ng-model="searchText.username" class="form-control">
+											</div>
+										</div>
+										<div class="filter-group">
+											<label>Lọc</label> <select class="form-control"
+												ng-init="searchText.activated = true"
+												ng-model="searchText.activated">
+												<option ng-value="true" ng-selected="selected">Kích
+													hoạt</option>
+												<option ng-value="false">Chưa kích hoạt</option>
+
+											</select> <select class="form-control"
+												ng-init="searchText.status = true"
+												ng-model="searchText.status">
+												<option ng-value="true" ng-selected="selected">Chưa
+													bị xóa</option>
+												<option ng-value="false">Đã bị xóa</option>
+
+											</select>
+										</div>
+										<span class="filter-icon"><i class="fa fa-filter"></i></span>
+									</div>
+								</div>
+							</div>
+							<table class="table table-striped table-hover">
+								<thead>
+									<tr>
+										<th ng-click="sort('username')">Tài khoản <span
+											class="glyphicon sort-icon" ng-show="sortKey =='username'"
+											ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span></th>
+										<th>Họ tên</th>
+										<th>Email</th>
+										<th ng-click="sort('phone')">Số điện thoại<span
+											class="glyphicon sort-icon" ng-show="sortKey =='phone'"
+											ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span></th>
+										<th>Địa chỉ</th>
+										<th>Hình ảnh</th>
+										<th>Trạng thái</th>
+										<th>Hành động</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										dir-paginate="p in items| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+										<td>{{p.username}}</td>
+										<td>{{p.fullname}}</td>
+										<td>{{p.email}}</td>
+										<td>{{p.phone}}</td>
+										<td>{{p.address}}</td>
+										<td>{{p.photo}}</td>
+										<td>{{p.activated ? 'Đã kích hoạt' : 'Chưa kích hoạt'}}</td>
+										<td>
+											<div class="btn-group btn-group-xs">
+												<button ng-click="edit(p)" class="btn btn-warning"
+													id="btnEdit">Edit</button>
+												<button ng-click="delete(p)" class="btn btn-danger">Xóa</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<dir-pagination-controls></dir-pagination-controls>
+					</div>
+
+				</div>
+				<!-- /.panel-->
+
+
+				<div class="panel panel-default info">
+					<div class="panel-heading">Thông tin tài khoản</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<div class="text-center">
+								<img ng-src="{{'/assets/images/' + form.photo}}"
+									class="avatar img-circle" alt="avatar" width="100px">
+								<h6>Tải lên hình ảnh...</h6>
+
+								<input type="file" class="form-control" ng-model="form.photo"
+									onchange="angular.element(this).scope().imageChange(this.files)">
+							</div>
+						</div>
+						<div class="col-md-6">
+
+							<div class="form-group">
+								<label>Tài khoản</label> <input type="text"
+									class="form-control username" ng-model="form.username" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'username'"
+									ng-bind="value.defaultMessage"></div>
+								<div class="alert alert-danger" ng-if="idError !=null"
+									ng-bind="idError"></div>
+							</div>
+
+							<div class="form-group">
+								<div>Họ tên</div>
+								<input type="text" class="form-control" ng-model="form.fullname" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'fullname'"
+									ng-bind="value.defaultMessage"></div>
+							</div>
+							<div class="form-group">
+								<div>Địa chỉ</div>
+								<input type="text" class="form-control" ng-model="form.address" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'address'"
+									ng-bind="value.defaultMessage"></div>
+							</div>
+							<div class="form-group" ng-show="form.status == false">
+								<div>Tình trạng</div>
+								<div class="form-check-input">
+									<label for="av_true" class="radio-inline"> <input
+										ng-value="true" name="status" id="st_true" type="radio"
+										ng-model="form.status" required="required" />Khôi phục
+									</label>
+								</div>
+								<div class="form-check-input">
+									<label for="av_false" class="radio-inline"> <input
+										ng-value="false" name="status" id="st_false" type="radio"
+										ng-model="form.status" required="required" />Đã bị xóa
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<div>Mật khẩu</div>
+								<input type="password" class="form-control"
+									ng-model="form.password" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'password'"
+									ng-bind="value.defaultMessage"></div>
+							</div>
+
+							<div class="form-group">
+								<div>Email</div>
+								<input type="text" class="form-control" ng-model="form.email" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'email'"
+									ng-bind="value.defaultMessage"></div>
+								<div class="alert alert-danger" ng-if="emailError !=null"
+									ng-bind="emailError"></div>
+							</div>
+							<div class="form-group">
+								<div>Số điện thoại</div>
+								<input type="text" class="form-control" ng-model="form.phone" />
+								<div class="alert alert-danger" ng-repeat="value in error"
+									ng-if="error != null && value.field == 'phone'"
+									ng-bind="value.defaultMessage"></div>
+							</div>
+							<div class="form-group">
+								<div>Trạng thái</div>
+								<div class="form-control">
+									<label for="av_true" class="radio-inline"> <input
+										ng-value="true" name="activated" id="av_true" type="radio"
+										ng-model="form.activated" required="required" />Kích hoạt
+									</label> <label for="av_false" class="radio-inline"> <input
+										ng-value="false" name="activated" id="av_false" type="radio"
+										ng-model="form.activated" required="required" />Chưa kích
+										hoạt
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="panel-footer">
+								<button ng-click="create()" class="btn btn-primary"
+									id="btn-create">Thêm</button>
+								<button ng-click="update()" class="btn btn-success"
+									id="btn-update" disabled="disabled">Sửa</button>
+								<button ng-click="delete(form)" class="btn btn-danger"
+									id="btn-delete" disabled="disabled">Xóa</button>
+
+								<button ng-click="reset()" class="btn btn-info" id="btn-reset">
+									Làm mới</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.panel-->
+		</div>
+		<!-- /.col-->
+	</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quản lý sản phẩm</title>
+</head>
+<body>
+	<div class="row">
+		<ol class="breadcrumb">
+
+			<li><a href="#"> <em class="fa fa-home"></em>
+			</a></li>
+			<li class="active">Quản lý sản phẩm</li>
+		</ol>
+	</div>
+	<!--/.row-->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Quản lý sản phẩm</h1>
+		</div>
+	</div>
+	<!--/.row-->
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Bảng</div>
+				<div class="panel-body table-responsive">
+					<div class="col-md-12 table-wrapper">
+						<div class="table-title">
+							<div class="row">
+								<div class="col-sm-4">
+									<h2>
+										Sản phẩm <b>chi tiết</b>
+									</h2>
+								</div>
+								<div class="col-sm-8">
+									<button class="btn btn-primary" ng-click="initialize()">
+										<i class="material-icons">&#xE863;</i> <span>Tải lại
+											danh sách</span>
+									</button>
+									<a href="#" class="btn btn-secondary"><i
+										class="material-icons">&#xE24D;</i> <span>Xuất Excel</span></a>
+								</div>
+							</div>
+						</div>
+						<div class="table-filter">
+							<div class="row">
+								<div class="col-sm-3"></div>
+								<div class="col-sm-9">
+									<div class="filter-group">
+										<label>Tìm kiếm</label> <input type="text"
+											placeholder="Nhập vào tên sản phẩm..." class="form-control"
+											ng-model="searchText.name">
+									</div>
+									<!-- 		<div class="filter-group">
+										<label>Sắp xếp</label> <select class="form-control"
+											ng-model="orders">
+											<option ng-value="'-price'">Giá từ cao xuống thấp</option>
+											<option ng-value="'price'">Giá từ thấp đến cao</option>
+										</select>
+									</div> -->
+									<div class="filter-group">
+										<label>Lọc</label> <select class="form-control"
+											ng-init="searchText.available = true"
+											ng-model="searchText.available">
+											<option ng-value="">Tất cả</option>
+											<option ng-value="true">Còn hàng</option>
+											<option ng-value="false">Hết hàng</option>
+										</select>
+									</div>
+									<span class="filter-icon"><i class="fa fa-filter"></i></span>
+								</div>
+							</div>
+						</div>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th scope="col" ng-click="sort('id')">Mã SP <span
+										class="glyphicon sort-icon" ng-show="sortKey =='id'"
+										ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span>
+									</th>
+									<th scope="col" ng-click="sort('category.id')">Mã loại <span
+										class="glyphicon sort-icon" ng-show="sortKey =='category.id'"
+										ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span></th>
+									<th scope="col" ng-click="sort('name')">Tên sản phẩm <span
+										class="glyphicon sort-icon" ng-show="sortKey =='name'"
+										ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span></th>
+									<th scope="col">Ảnh</th>
+									<th scope="col" ng-click="sort('price')">Giá <span
+										class="glyphicon sort-icon" ng-show="sortKey =='price'"
+										ng-class="{'fa fa-arrow-circle-o-down':reverse,'fa fa-arrow-circle-o-up':!reverse}"></span></th>
+									<th scope="col">Tình trạng</th>
+									<th>Hành động</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									dir-paginate="p in items| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+									<td>{{p.id}}</td>
+									<td>{{p.category.id}}
+									<td>{{p.name}}</td>
+									<td>{{p.image}}</td>
+									<td>{{p.price | number}}đ</td>
+									<td>{{p.available ? 'Yes' : 'No'}}</td>
+									<td>
+										<div class="btn-group btn-group-xs">
+											<button ng-click="edit(p)" class="btn btn-warning"
+												id="btnEdit">Edit</button>
+											<button type="button" class="btn btn-danger"
+												ng-click="delete(p)">Xóa</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<dir-pagination-controls></dir-pagination-controls>
+				</div>
+			</div>
+			<!-- /.panel-->
+
+
+			<div class="panel panel-default info">
+				<div class="panel-heading">Thông tin sản phẩm</div>
+				<div class="panel-body">
+					<div class="col-md-6" style="float: none; margin: auto;">
+						<div class="text-center">
+							<img ng-src="{{'/assets/images/' + form.image}}"
+								class="avatar img-thumbnail" alt="avatar" width="190px">
+							<h6>hoanthaihoc.jpg</h6>
+							<input type="file" class="form-control" id="image"
+								ng-model="form.image"
+								onchange="angular.element(this).scope().imageChange(this.files)" />
+						</div>
+					</div>
+
+
+					<div class="col-md-6" style="margin-top: 20px">
+						<div class="form-group">
+							<div>Tên sản phẩm</div>
+							<input type="text" class="form-control" ng-model="form.name"
+								required="required" />
+							<div class="alert alert-danger" ng-repeat="value in error"
+								ng-if="error != null && value.field == 'name'"
+								ng-bind="value.defaultMessage"></div>
+
+						</div>
+
+						<div class="form-group">
+							<div>Giá</div>
+							<input type="number" class="form-control" ng-model="form.price"
+								required="required" />
+							<div class="alert alert-danger" ng-repeat="value in error"
+								ng-if="error != null && value.field == 'price'"
+								ng-bind="value.defaultMessage"></div>
+						</div>
+
+						<div class="form-group">
+							<div>Loại</div>
+							<select class="form-control" ng-model="form.category.id">
+								<option ng-repeat="c in cates" ng-value="c.id"
+									selected="selected">{{c.name}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<div>Tạo ngày</div>
+							<input type="date" id="createDate" class="form-control"
+								ng-model="form.createDate" readonly="readonly" />
+						</div>
+					</div>
+
+					<div class="col-md-6" style="margin-top: 20px">
+
+
+
+						<div class="form-group">
+							<div>Còn hàng?</div>
+							<div class="form-control">
+								<label for="av_true" class="radio-inline"> <input
+									ng-value="true" name="available" id="av_true" type="radio"
+									ng-model="form.available" required="required" />Còn
+								</label> <label for="av_false" class="radio-inline"> <input
+									ng-value="false" name="available" id="av_false" type="radio"
+									ng-model="form.available" required="required" />Hết hàng
+								</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div>Mô tả</div>
+							<textarea rows="" cols="" maxlength="200" class="form-control"
+								ng-model="form.description"></textarea>
+							<div class="alert alert-danger" ng-repeat="value in error"
+								ng-if="error != null && value.field == 'description'"
+								ng-bind="value.defaultMessage"></div>
+						</div>
+						<div class="form-group">
+							<div>Trạng thái?</div>
+							<div class="form-check-input">
+								<label for="av_sts_true" class="radio-inline"> <input
+									ng-value="true" name="status" id="av_sts_true" type="radio"
+									ng-model="form.status" required="required" />Kích hoạt
+								</label>
+
+							</div>
+							<div class="form-check-input">
+								<label for="av_sts_false" class="radio-inline"> <input
+									ng-value="false" name="status" id="av_sts_false" type="radio"
+									ng-model="form.status" required="required" />Không kích hoạt
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel-footer">
+							<button ng-click="create()" class="btn btn-primary"
+								id="btn-create">Thêm</button>
+							<button ng-click="update()" class="btn btn-success"
+								id="btn-update" disabled="disabled">Sửa</button>
+							<button ng-click="delete(form)" class="btn btn-danger"
+								id="btn-delete" disabled="disabled">Xóa</button>
+							<button ng-click="reset()" class="btn btn-info" id="btn-reset">
+								Làm mới</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- /.panel-->
+		<!-- /.col-->
+	</div>
+
+</body>
+</html>

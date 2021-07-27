@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" th:fragment="dynamic(main)">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin</title>
+</head>
+<body>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="#"> <em class="fa fa-home"></em>
+			</a></li>
+			<li class="active">
+			<li>
+		</ol>
+	</div>
+	<!--/.row-->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Bảng điều khiển</h1>
+		</div>
+	</div>
+	<!--/.row-->
+
+	<div class="panel panel-container">
+		<div class="row">
+			<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<div class="panel panel-teal panel-widget border-right">
+					<div class="row no-padding">
+						<em class="fa fa-xl fa-shopping-cart color-blue"></em>
+						<div class="large">120</div>
+						<div class="text-muted">Đơn hàng mới</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<div class="panel panel-blue panel-widget border-right">
+					<div class="row no-padding">
+						<em class="fa fa-xl fa-comments color-orange"></em>
+						<div class="large">52</div>
+						<div class="text-muted">Lượt yêu thích mới</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<div class="panel panel-orange panel-widget border-right">
+					<div class="row no-padding">
+						<em class="fa fa-xl fa-users color-teal"></em>
+						<div class="large">24</div>
+						<div class="text-muted">Người dùng mới</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<div class="panel panel-red panel-widget ">
+					<div class="row no-padding">
+						<em class="fa fa-xl fa-search color-red"></em>
+						<div class="large">25.2k</div>
+						<div class="text-muted">Lượt truy cập web mới</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/.row-->
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Thống kê lượt mua hàng so với năm trước
+					<ul class="pull-right panel-settings panel-button-tab-right">
+						<li class="dropdown"><a class="pull-right dropdown-toggle"
+							data-toggle="dropdown" href="#"> <em class="fa fa-cogs"></em>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li>
+									<ul class="dropdown-settings">
+										<li><a href="#"> <em class="fa fa-cog"></em> Năm 2019
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em> Năm 2020
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em> Năm 2021
+										</a></li>
+									</ul>
+								</li>
+							</ul></li>
+					</ul>
+					<span
+						class="pull-right clickable panel-toggle panel-button-tab-left"><em
+						class="fa fa-toggle-up"></em></span>
+				</div>
+				<div class="panel-body">
+					<div class="canvas-wrapper">
+						<canvas class="main-chart" id="line-chart" height="200"
+							width="600"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/.row-->
+
+	<div class="row">
+		<div class="col-xs-6 col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body easypiechart-panel">
+					<h4>Đơn hàng mới</h4>
+					<div class="easypiechart" id="easypiechart-blue" data-percent="92">
+						<span class="percent">92%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body easypiechart-panel">
+					<h4>Lượt thích sản phẩm mới</h4>
+					<div class="easypiechart" id="easypiechart-orange"
+						data-percent="65">
+						<span class="percent">65%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body easypiechart-panel">
+					<h4>Người dùng mới</h4>
+					<div class="easypiechart" id="easypiechart-teal" data-percent="56">
+						<span class="percent">56%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body easypiechart-panel">
+					<h4>Khách ghé Web</h4>
+					<div class="easypiechart" id="easypiechart-red" data-percent="27">
+						<span class="percent">27%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/.row-->
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default chat">
+				<div class="panel-heading">
+					Tin nhắn hỗ trợ
+					<ul class="pull-right panel-settings panel-button-tab-right">
+						<li class="dropdown"><a class="pull-right dropdown-toggle"
+							data-toggle="dropdown" href="#"> <em class="fa fa-cogs"></em>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li>
+									<ul class="dropdown-settings">
+										<li><a href="#"> <em class="fa fa-cog"></em> Gần đây
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em> Tin nhắn
+												mới
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em> Tín nhắn
+												đã lưu
+										</a></li>
+									</ul>
+								</li>
+							</ul></li>
+					</ul>
+					<span
+						class="pull-right clickable panel-toggle panel-button-tab-left"><em
+						class="fa fa-toggle-up"></em></span>
+				</div>
+				<div class="panel-body">
+					<ul>
+						<li class="left clearfix"><span class="chat-img pull-left">
+								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar"
+								class="img-circle" />
+						</span>
+							<div class="chat-body clearfix">
+								<div class="header">
+									<strong class="primary-font">Thái Học</strong> <small
+										class="text-muted">32 phút trước</small>
+								</div>
+								<p>Tôi muốn hỏi về vấn đề này vấn đề kia vấn đề nọ, bạn có
+									thể trả lời tôi không ?</p>
+							</div></li>
+						<li class="right clearfix"><span class="chat-img pull-right">
+								<img src="http://placehold.it/60/dde0e6/5f6468"
+								alt="User Avatar" class="img-circle" />
+						</span>
+							<div class="chat-body clearfix">
+								<div class="header">
+									<strong class="pull-left primary-font">Thái Học</strong> <small
+										class="text-muted">6 phút trước</small>
+								</div>
+								<p>Tôi muốn hỏi về vấn đề này vấn đề kia vấn đề nọ, bạn có
+									thể trả lời tôi không ? Tôi gửi bạn tệp đính kèm.</p>
+							</div></li>
+						<li class="left clearfix"><span class="chat-img pull-left">
+								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar"
+								class="img-circle" />
+						</span>
+							<div class="chat-body clearfix">
+								<div class="header">
+									<strong class="primary-font">Thái Học</strong> <small
+										class="text-muted">32 phút trước</small>
+								</div>
+								<p>Tôi muốn hỏi về vấn đề này vấn đề kia vấn đề nọ, bạn có
+									thể trả lời tôi không ?</p>
+							</div></li>
+					</ul>
+				</div>
+				<div class="panel-footer">
+					<div class="input-group">
+						<input id="btn-input" type="text" class="form-control input-md"
+							placeholder="Nhập tin nhắn bạn ở đây..." /><span
+							class="input-group-btn">
+							<button class="btn btn-primary btn-md" id="btn-chat">Gửi</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+		<!--/.col-->
+
+
+		<div class="col-md-6">
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					Thống kê số lượng sản phẩm
+					<ul class="pull-right panel-settings panel-button-tab-right">
+						<li class="dropdown"><a class="pull-right dropdown-toggle"
+							data-toggle="dropdown" href="#"> <em class="fa fa-cogs"></em>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li>
+									<ul class="dropdown-settings">
+										<li><a href="#"> <em class="fa fa-cog"></em> Số lượng
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em>
+												Tăng/Giảm
+										</a></li>
+										<li class="divider"></li>
+										<li><a href="#"> <em class="fa fa-cog"></em> A-Z
+										</a></li>
+									</ul>
+								</li>
+							</ul></li>
+					</ul>
+					<span
+						class="pull-right clickable panel-toggle panel-button-tab-left"><em
+						class="fa fa-toggle-up"></em></span>
+				</div>
+				<div class="panel-body timeline-container">
+					<table class="table ">
+						<tbody>
+							<tr>
+								<td class="text-dark">Ba lô</td>
+								<td class="text-center">93</td>
+								<td class="text-right">33% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Áo thun</td>
+								<td class="text-center">63</td>
+								<td class="text-right">150% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Áo choàng ngoài</td>
+								<td class="text-center">35</td>
+								<td class="text-right">50% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Dây chuyền</td>
+								<td class="text-center">73</td>
+								<td class="text-right">150% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Quần Jeans</td>
+								<td class="text-center">89</td>
+								<td class="text-right">300% <i
+									class="mdi mdi-arrow-down-bold text-danger pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Giày</td>
+								<td class="text-center">55</td>
+								<td class="text-right">100% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-dark">Áo sơ-mi</td>
+								<td class="text-center">63</td>
+								<td class="text-right">150% <i
+									class="mdi mdi-arrow-up-bold text-success pl-1 font-size-12"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!--/.col-->
+	</div>
+</body>
+</html>
+

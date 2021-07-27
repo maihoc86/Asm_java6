@@ -1,0 +1,107 @@
+<header>
+	<!-- TOP HEADER -->
+	<div id="top-header">
+		<div class="container">
+			<ul class="header-links pull-left">
+				<li><a href="#"><i class="fa fa-phone"></i>+84 798 0897 17</a></li>
+				<li><a href="#"><i class="fa fa-envelope-o"></i>
+						maihoc348@gmail.com</a></li>
+				<li><a href="#"><i class="fa fa-map-marker"></i>359 Nguyen
+						Van Cu, Can Tho</a></li>
+			</ul>
+			<ul class="header-links pull-right">
+				<li><a th:href="@{/home/index}"><i class="fa fa-user-o"></i>
+						[[#{lo.mn.home}]]</a></li>
+
+				<th:block th:if="${#request.remoteUser}">
+					<li><a href="#"><i class="fa fa-user-o"></i>[[#{lo.mn.account}]]</a>
+						<ul class="dropdown">
+							<li><a th:href="@{/order/list}">[[#{lo.mn.orderhistory}]]</a></li>
+							<li><a th:href="@{/my-account/update-profile}">[[#{lo.mn.updateprofile}]]</a></li>
+							<li><a th:href="@{/my-account/change-password}">[[#{lo.mn.changepassword}]]</a></li>
+							<li><a th:href="@{/security/logoff}">
+									[[#{lo.mn.signout}]]</a></li>
+						</ul></li>
+
+					<li><a
+						th:if="${#request.isUserInRole('DIRE') or #request.isUserInRole('STAF') or #request.isUserInRole('Ad')}"
+						th:href="@{/admin/home/index}"><i class="fa fa-user-o"></i>
+							[[#{lo.mn.admin}]]</a></li>
+
+					<li><a href="#"><i class="fa fa-user-o"></i>[[#{lo.mn.hello}]],
+							[[${#request.remoteUser}]]</a></li>
+
+				</th:block>
+				<th:block th:unless="${#request.remoteUser}">
+					<li><a th:href="@{/sign-up}"><i class="fa fa-user-o"></i>
+							[[#{lo.mn.signup}]]</a></li>
+					<li><a th:href="@{/security/login/form}"><i
+							class="fa fa-user-o"></i> [[#{lo.mn.signin}]]</a></li>
+				</th:block>
+				<li><a href="#"><i class="fa fa-user-o"></i>
+						[[#{lo.mn.language}]]</a>
+					<ul class="dropdown">
+						<li><a href="?lang=vi">Việt Nam</a></li>
+						<li><a href="?lang=en">English</a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</div>
+	<!-- /TOP HEADER -->
+
+	<!-- MAIN HEADER -->
+	<div id="header">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- LOGO -->
+				<div class="col-md-3">
+					<div class="header-logo">
+						<a href="#" class="logo"> <img src="/assets/images/logo.png"
+							alt="">
+						</a>
+					</div>
+				</div>
+				<!-- /LOGO -->
+
+				<!-- SEARCH BAR -->
+				<div class="col-md-6">
+					<div class="header-search">
+						<form action="/product/search" method="GET">
+							<select class="input-select" name="key">
+								<option value="nameProduct">[[#{lo.mn.searchProduct}]]</option>
+								<option value="categoryProduct">[[#{lo.mn.searchCate}]]</option>
+							</select> <input class="input" name="keyword" th:value="${valueSearch}">
+							<button class="search-btn" type="submit">[[#{lo.mn.search}]]</button>
+						</form>
+					</div>
+				</div>
+				<!-- /SEARCH BAR -->
+
+				<!-- ACCOUNT -->
+				<div class="col-md-3 clearfix">
+					<div class="header-ctn">
+						<!-- Wishlist -->
+
+						<!-- /Wishlist -->
+						<!-- Cart -->
+						<div th:replace="/layout/cart.html"></div>
+						<!-- /Cart -->
+
+						<!-- Menu Toogle -->
+						<div class="menu-toggle">
+							<a href="#"> <i class="fa fa-bars"></i> <span>Menu</span>
+							</a>
+						</div>
+						<!-- /Menu Toogle -->
+					</div>
+				</div>
+				<!-- /ACCOUNT -->
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</div>
+	<!-- /MAIN HEADER -->
+</header>

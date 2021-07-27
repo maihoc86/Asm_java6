@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up</title>
+</head>
+<body>
+	<main ng-controller="sign-up">
+		<h1 class=" col-lg-12 well">[[#{signup.title}]]</h1>
+		<div class="col-lg-6 well">
+			<div class="row">
+				<form name="myForm" novalidate="novalidate">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-6 form-group">
+								<label>[[#{signup.fullname}]]</label> <input type="text"
+									name="fullname" th:attr="placeholder=#{signup.inputHoten}"
+									class="form-control"
+									pattern="^\S([a-zA-Z\xC0-\uFFFF]{1,60}[ \-\']{0,1}){1,}$"
+									ng-model="form.fullname" required="required"> <span
+									ng-show="myForm.$submitted || myForm.fullname.$dirty"> <span
+									class="error" ng-show="myForm.fullname.$error.pattern">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.fullnamePattern}]]
+								</span> <span class="error" ng-show="myForm.fullname.$error.required">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.fullnameNull}]]
+								</span>
+								</span>
+							</div>
+							<div class="col-sm-6 form-group">
+								<label>[[#{signup.username}]]</label> <input type="text"
+									th:attr="placeholder=#{signup.inputUsername}"
+									class="form-control" name="username"
+									pattern="^[a-zA-Z0-9](_(?!(\\.|_))|\\.(?!(_|\\.))|[a-zA-Z0-9]){1,}[a-zA-Z0-9]$"
+									ng-model="form.username" required="required"> <span
+									ng-show="myForm.$submitted || myForm.username.$dirty"> <span
+									class="error" ng-show="myForm.username.$error.pattern">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.usernamePattern}]]
+								</span> <span class="error" ng-show="myForm.username.$error.required">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.usernameNull}]]
+								</span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>[[#{signup.address}]]</label>
+							<textarea th:attr="placeholder=#{signup.inputAddress}" rows="3"
+								name="address" class="form-control" ng-model="form.address"
+								pattern="^\S([a-zA-Z0-9\xC0-\uFFFF]{1,60}[ \-\']{0,1}){1,}$"
+								required="required"></textarea>
+							<span ng-show="myForm.$submitted || myForm.address.$dirty">
+								<span class="error" ng-show="myForm.address.$error.pattern">
+									<i class="fa fa-exclamation-circle"></i>
+									[[#{signup.validate.addressPattern}]]
+							</span> <span class="error" ng-show="myForm.address.$error.required">
+									<i class="fa fa-exclamation-circle"></i>
+									[[#{signup.validate.addressNull}]]
+							</span>
+							</span>
+						</div>
+						<div class="row">
+							<div class="col-sm-6 form-group">
+								<label>[[#{signup.email}]]</label> <input type="email"
+									name="email" th:attr="placeholder=#{signup.inputEmail}"
+									ng-model="form.email"
+									pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+									class="form-control" required="required"> <span
+									ng-show="myForm.$submitted || myForm.email.$dirty"> <span
+									class="error" ng-show="myForm.email.$error.pattern"> <i
+										class="fa fa-exclamation-circle"></i>[[#{signup.validate.emailPattern}]]
+								</span> <span class="error" ng-show="myForm.email.$error.required">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.emailNull}]]
+								</span>
+								</span>
+							</div>
+							<div class="col-sm-6 form-group">
+								<label>[[#{signup.phone}]]</label> <input type="text"
+									name="phone" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
+									th:attr="placeholder=#{signup.inputPhone}"
+									ng-model="form.phone" class="form-control" required="required">
+								<span ng-show="myForm.$submitted || myForm.phone.$dirty">
+									<span class="error" ng-show="myForm.phone.$error.pattern">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.phonePattern}]]
+								</span> <span class="error" ng-show="myForm.phone.$error.required">
+										<i class="fa fa-exclamation-circle"></i>
+										[[#{signup.validate.phoneNull}]]
+								</span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>[[#{signup.password}]]</label> <input type="password"
+								maxlength="50" name="password" minlength="6"
+								th:attr="placeholder=#{signup.inputPassword}"
+								ng-model="form.password" class="form-control"
+								required="required"> <span
+								ng-show="myForm.$submitted || myForm.password.$dirty"> <span
+								class="error"
+								ng-show="((myForm.password.$error.minlength || myForm.password.$error.maxlength))">
+									<i class="fa fa-exclamation-circle"></i>
+									[[#{signup.validate.passPattern}]]
+							</span> <span class="error" ng-show="myForm.password.$error.required">
+									<i class="fa fa-exclamation-circle"></i>
+									[[#{signup.validate.passNull}]]
+							</span>
+							</span>
+
+						</div>
+						<div class="form-group">
+							<label>[[#{signup.cfpass}]]</label> <input type="password"
+								name="cfpassword"
+								th:attr="placeholder=#{signup.inputCfPassword}"
+								ng-model="form.cfpassword" class="form-control" password-confirm
+								match-target="form.password" required="required"> <span
+								class="error" ng-show="myForm.cfpassword.$error.match"> <i
+								class="fa fa-exclamation-circle"></i>
+								[[#{signup.validate.cfPass}]]
+							</span>
+						</div>
+					</div>
+					<button type="button" ng-disabled="myForm.$invalid"
+						ng-click="create()" class="btn btn-lg btn-info col-md-12">[[#{signup.btn}]]</button>
+				</form>
+				<a th:href="@{/security/login/form}">[[#{signup.already}]]</a>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="text-center">
+				<img ng-src="{{'/assets/images/' + form.photo}}"
+					class="avatar img-circle" alt="avatar" width="100px">
+				<h6>Tải lên hình ảnh...</h6>
+
+				<input type="file" class="form-control" ng-model="form.photo"
+					onchange="angular.element(this).scope().imageChange(this.files)">
+			</div>
+		</div>
+	</main>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+
+<div class="dropdown">
+	<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+		<i class="fa fa-shopping-cart"></i> <span>[[#{lo.mn.cart}]]</span>
+		<div class="qty">{{cart.items.length}}</div>
+	</a>
+	<div class="cart-dropdown">
+		<div class="cart-list">
+			<div class="product-widget" ng-repeat="i in cart.items">
+				<div class="product-img">
+					<img th:src="@{|/assets/images/{{i.image}}|}" alt="">
+
+				</div>
+				<div class="product-body">
+					<h3 class="product-name">
+						<a href="#">{{i.name}}</a>
+					</h3>
+					<h4 class="product-price"
+						ng-if="i.discount != null && i.discount.discount != null">
+						<span class="qty"><input type="number"
+							ng-change="cart.saveToLocalStorage()" ng-model="i.qty" min="1"
+							style="width: 20%" /></span>{{i.price - (i.price * i.discount.discount)
+						/ 100 | number}}đ
+					</h4>
+					<h4 class="product-price"
+						ng-if="i.discount == null && i.discount.discount == null">
+						<span class="qty"><input type="number"
+							ng-change="cart.saveToLocalStorage()" ng-model="i.qty" min="1"
+							style="width: 20%" /></span>{{i.price | number}}đ
+					</h4>
+				</div>
+				<button class="delete" ng-click="cart.remove(i.id)">
+					<i class="fa fa-close"></i>
+				</button>
+			</div>
+		</div>
+		<div class="cart-summary">
+			<small>{{cart.count}} [[#{lo.mn.cartChoose}]]</small>
+			<h5>[[#{lo.mn.cartTotalPrice}]]: {{cart.amount | number}}đ</h5>
+		</div>
+		<div class="cart-btns">
+			<a th:href="@{/cart/view}">[[#{lo.mn.viewCart}]]</a> <a
+				th:href="@{/order/checkout}">[[#{lo.mn.checkout}]] <i
+				class="fa fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+</div>

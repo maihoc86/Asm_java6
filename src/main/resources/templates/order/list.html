@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+	th:replace="~{/layout/index :: dynamic(~{::main})}">
+<!-- đưa thể main của trang checkout vào trang layout -->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order List</title>
+</head>
+<body>
+	<main>
+		<div class="panel panel-primary">
+			<div class="panel-heading">[[#{orderhistory.title}]]</div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>[[#{orderhistory.id}]].</th>
+						<th>[[#{orderhistory.date}]]</th>
+						<th>[[#{orderhistory.address}]]</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="order,state : ${orders.content}" th:object="${order}">
+						<td>[[${state.index}]]</td>
+						<!-- Lấy vị trí phần tử -->
+						<td>[[*{id}]]</td>
+						<td>[[*{createDate}]]</td>
+						<td>[[*{address}]]</td>
+						<td><a th:href="@{|/order/detail/*{id}|}"
+							class="btn btn-default"> <b class="fa fa-search"></b>
+						</a></td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="panel-footer text-center">
+				<a th:href="@{/order/list(size=${orders.size}, page=1)}"
+					class="btn btn-danger"> <i class="fa fa-hand-o-up"></i>
+				</a> <a class="btn btn-primary"
+					th:if="${pagePresent >= orders.totalPages}"
+					th:href="@{/order/list(size=${orders.size}, page=${pagePresent -1})}"><i
+					class="fa fa-hand-o-left"></i></a>
+				<button class="btn btn-success">[[${pagePresent}]] of
+					[[${orders.totalPages}]]</button>
+				<a class="btn btn-primary"
+					th:if="${pagePresent < orders.totalPages}"
+					th:href="@{/order/list(size=${orders.size}, page=${pagePresent +1})}"><i
+					class="fa fa-hand-o-right"></i></a> <a class="btn btn-danger"
+					th:href="@{/order/list(size=${orders.size}, page=${orders.totalPages})}"><i
+					class="fa fa-hand-o-down"></i></a>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
