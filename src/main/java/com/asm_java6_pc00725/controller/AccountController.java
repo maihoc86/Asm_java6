@@ -74,7 +74,6 @@ public class AccountController {
 		if (error.getAllErrors().size() <= 3 && (error.getFieldError().getField().toString().equals("fullname")
 				|| error.getFieldError().getField().toString().equals("address")
 				|| error.getFieldError().getField().toString().equals("phone"))) {
-
 			model.addAttribute("message", "Vui lòng sửa các lỗi sau:");
 		}
 		if (error.getAllErrors().size() <= 3 && (error.getFieldError().getField().toString().equals("username")
@@ -86,7 +85,7 @@ public class AccountController {
 			} else {
 				String fileString = file.getOriginalFilename();
 				String[] fileCat = fileString.split("\\.");
-				param.save(file, "/assets/images", accountFind.getUsername() + "." + fileCat[1]);
+				param.save(file, "/assets/images/user/", accountFind.getUsername() + "." + fileCat[1]);
 				accountFind.setPhoto(accountFind.getUsername() + "." + fileCat[1]);
 			}
 			accountFind.setFullname(account.getFullname());

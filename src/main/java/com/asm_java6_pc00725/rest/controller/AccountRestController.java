@@ -66,9 +66,8 @@ public class AccountRestController {
 		return service.update(account);
 	}
 
-	@PostMapping("/my-account/save2")
+	@PostMapping("/my-account/save")
 	public ResponseEntity<Accounts> saveMyAccount(@Valid @RequestBody Accounts account) {
-		System.out.println("Vào đây");
 		if (account.getPhoto() != null) {
 			account.setPhoto(account.getPhoto());
 		} else {

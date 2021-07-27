@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +68,15 @@ public class ParamService {
 			if (!dirFile.exists()) {
 				dirFile.mkdirs();
 			}
-
 			File save = new File(dirFile, fileName);
+			/*
+			 * File[] listOfFiles = dirFile.listFiles(); for (File fileList : listOfFiles) {
+			 * if (fileList.isFile()) { fileCat = fileList.getName().split("\\."); if
+			 * (fileList.getName().equals(file.getName())) {
+			 * System.out.println(fileList.getName() + file.getName());
+			 * System.out.println("Trùng file r"); fileList.delete(); } else {
+			 * System.out.println("K"); } } }
+			 */
 			file.transferTo(save);
 			return save;
 		} catch (IllegalStateException | IOException e) {

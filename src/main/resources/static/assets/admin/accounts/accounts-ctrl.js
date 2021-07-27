@@ -62,7 +62,8 @@ app.controller('accounts-ctrl', function($scope, $http) {
 		console.log(item.activated)
 		console.log(item.username);
 		item.status = true;
-		$http.post('/rest/accounts/my-account/save2', item).then(function(response) {
+
+		$http.post('/rest/accounts/my-account/save', item).then(function(response) {
 			response.data.createDate = new Date(response.data.createDate);
 			$scope.items.push(response.data);
 			$scope.reset();
@@ -75,6 +76,7 @@ app.controller('accounts-ctrl', function($scope, $http) {
 			$scope.error = error.data.errors;
 			console.log("Erorr", $scope.error);
 		})
+
 	}
 
 	// Xóa sản phẩm 

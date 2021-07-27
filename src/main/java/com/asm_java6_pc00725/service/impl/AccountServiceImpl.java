@@ -24,14 +24,20 @@ public class AccountServiceImpl implements AccountsService {
 
 	@Override
 	public Accounts findById(String id) {
-		Optional<Accounts> findAccounts = dao.findById(id);
-		if (findAccounts == null) {
-			return null;
+		if (id != null) {
+			Optional<Accounts> findAccounts = dao.findById(id);
+			if (findAccounts.isEmpty()) {
+				return null;
+			} else {
+				System.out.println(findAccounts);
+				Accounts accounts = findAccounts.get();
+				System.out.println(accounts);
+				return accounts;
+			}
 		} else {
-			Accounts accounts = findAccounts.get();
-			System.out.println(accounts);
-			return accounts;
+			return null;
 		}
+
 	}
 
 	@Override

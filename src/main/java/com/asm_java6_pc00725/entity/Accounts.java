@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.asm_java6_pc00725.contraint.ExistEmailConstraint;
+import com.asm_java6_pc00725.contraint.ExistUsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -24,6 +26,7 @@ public class Accounts implements Serializable {
 	@NotNull(message = "Không được để trống Tài khoản")
 	@Pattern(regexp = "^[a-zA-Z0-9](_(?!(\\.|_))|\\.(?!(_|\\.))|[a-zA-Z0-9]){0,}[a-zA-Z0-9]$", message = "Tài khoản không đúng định dạng")
 	@Size(min = 6, max = 18, message = "Tài khoản phải có độ dài từ 6 - 18 ký tự")
+	@ExistUsernameConstraint(message = "Tài khoản đã tồn tại")
 	private String username;
 	@NotNull(message = "Không được để trống Họ tên")
 	@Pattern(regexp = "^\\S([a-zA-Z\\xC0-\\uFFFF]{0,}[ \\-\\']{0,}){1,}$", message = "Họ tên không đúng định dạng")
@@ -34,6 +37,7 @@ public class Accounts implements Serializable {
 	private String password;
 	@NotNull(message = "Không được để trống Email")
 	@Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$", message = "Email không đúng dịnh dạng")
+	@ExistEmailConstraint(message = "Email đã tồn tại")
 	private String email;
 	@NotNull(message = "Không được để trống Địa chỉ")
 	@Pattern(regexp = "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$", message = "Địa chỉ không đúng định dạng")
@@ -45,7 +49,7 @@ public class Accounts implements Serializable {
 	private String photo;
 	private Boolean status;
 	private Boolean activated;
-	private String reset_password_token; 
+	private String reset_password_token;
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	List<Authorities> authorities;

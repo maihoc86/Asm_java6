@@ -223,7 +223,7 @@ app.controller('profile', function($scope, $http) {
 	$scope.imageChange = function(files) {
 		var data = new FormData();
 		data.append("file", files[0]);
-		$http.post('/rest/upload/images', data, {
+		$http.post('/rest/upload/images/user', data, {
 			transformRequest: angular.entity,
 			headers: {
 				'Content-Type': undefined
