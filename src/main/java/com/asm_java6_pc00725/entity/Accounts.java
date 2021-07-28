@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.asm_java6_pc00725.contraint.ExistEmailConstraint;
+import com.asm_java6_pc00725.contraint.ExistPhoneConstraint;
 import com.asm_java6_pc00725.contraint.ExistUsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,6 +44,7 @@ public class Accounts implements Serializable {
 	@Pattern(regexp = "^\\S([a-zA-Z0-9\\xC0-\\uFFFF\\.]{0,}[ \\-\\' \\.-]{0,}){1,}$", message = "Địa chỉ không đúng định dạng")
 	@Size(min = 4, max = 100, message = "Địa chỉ phải có độ dài từ 4 - 100 ký tự")
 	private String address;
+	@ExistPhoneConstraint(message = "Số điện thoại đã tồn tại")
 	@NotBlank(message = "Không được để trống số điện thoại")
 	@Pattern(regexp = "(84|0[3|5|7|8|9])+([0-9]{8})\\b", message = "Số điện thoại không đúng định dạng")
 	private String phone;

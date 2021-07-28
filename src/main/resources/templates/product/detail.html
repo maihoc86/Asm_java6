@@ -15,7 +15,7 @@
 			<div class="col-md-7 ">
 				<div id="product-main-img">
 					<div class="product-preview">
-						<img th:src="@{|/assets/images/*{image}|}" />
+						<img th:src="@{|/assets/images/product/*{image}|}" />
 					</div>
 				</div>
 			</div>
@@ -332,7 +332,7 @@
 					5}">
 					<div class="product">
 						<a class="product-img" th:href="@{|/product/details/${p.id}/|}">
-							<img th:src="@{|/assets/images/${p.image}|}" alt="">
+							<img th:src="@{|/assets/images/product/${p.image}|}" alt="">
 						</a>
 						<div class="product-label">
 							<span class="sale" th:if="${p.discount != null}">[[${#numbers.formatDecimal(p.discount.discount,

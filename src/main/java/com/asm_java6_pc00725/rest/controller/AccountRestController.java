@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +70,9 @@ public class AccountRestController {
 
 	@PostMapping("/my-account/save")
 	public ResponseEntity<Accounts> saveMyAccount(@Valid @RequestBody Accounts account) {
+		HttpSession session = null;
+		session.setAttribute("account-method", "create");
+		System.out.println(session.getAttribute("account-method"));
 		if (account.getPhoto() != null) {
 			account.setPhoto(account.getPhoto());
 		} else {

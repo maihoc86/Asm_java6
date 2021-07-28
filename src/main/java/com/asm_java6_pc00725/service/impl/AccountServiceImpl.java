@@ -113,4 +113,10 @@ public class AccountServiceImpl implements AccountsService {
 		dao.save(accounts);
 	}
 
+	@Override
+	public Accounts findByPhone(String field) {
+		// TODO Auto-generated method stub
+		return dao.findByPhone(field);
+	}
+
 }

@@ -16,6 +16,7 @@ public interface AccountsService {
 	void updateResetPasswordToken(String token, String email);
 
 	void updatePassword(Accounts accounts, String newPassword);
+
 	Accounts findByEmail(String email);
 
 	void loginFormOAuth2(OAuth2AuthenticationToken oAuth2AccessToken);
@@ -27,5 +28,7 @@ public interface AccountsService {
 	void delete(String username);
 
 	Accounts findEmailExist(String email, String username);
+
+	Accounts findByPhone(String field);
 
 }

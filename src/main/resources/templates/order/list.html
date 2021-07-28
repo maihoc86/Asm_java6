@@ -10,7 +10,26 @@
 </head>
 <body>
 	<main>
-		<div class="panel panel-primary">
+		<div th:if="${orders.totalPages == 0}">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body cart">
+						<div class="col-sm-12 empty-cart-cls text-center">
+							<img src="https://i.imgur.com/dCdflKN.png" width="130"
+								height="130" class="img-fluid mb-4 mr-3">
+							<h3>
+								<strong>Bạn chưa thực hiện mua hàng</strong>
+							</h3>
+							<h4>Hãy thêm sản phẩm sau đó quay lại ^^</h4>
+							<a href="/product/list"
+								class="btn btn-primary cart-btn-transform m-3" data-abc="true">Tiếp
+								tục mua hàng</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-primary" th:if="${orders.totalPages > 0}">
 			<div class="panel-heading">[[#{orderhistory.title}]]</div>
 			<table class="table table-hover">
 				<thead>

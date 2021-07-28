@@ -17,6 +17,7 @@ public class GlobalInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	HttpServletRequest request;
+
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
@@ -32,7 +33,6 @@ public class GlobalInterceptor implements HandlerInterceptor {
 			System.out.print(uri);
 			request.setAttribute("uri", uri);
 		}
-
 		return true;
 	}
 

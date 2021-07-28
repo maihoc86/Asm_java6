@@ -24,4 +24,6 @@ public interface AccountDAO extends JpaRepository<Accounts, String> {
 	@Query("SELECT o  FROM Accounts  o WHERE o.reset_password_token = ?1")
 	Accounts findByReset_password_token(String token);
 
+	Accounts findByPhone(String field);
+
 }
