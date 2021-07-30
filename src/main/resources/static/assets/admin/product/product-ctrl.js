@@ -61,9 +61,9 @@ app.controller('product-ctrl', function($scope, $http) {
 			var index = $scope.items.findIndex(p => p.id == item.id);
 			$scope.items[index] = item;
 			$scope.reset()
-			alert('Cập nhật thành công');
+			Swal.fire('Cập nhật thành công !', '', 'success')
 		}).catch(function(err) {
-			alert('Lỗi cập nhật sản phẩm');
+			Swal.fire('Cập nhật thất bại !', '', 'error')
 			$scope.error = err.data.errors;
 		})
 
@@ -77,9 +77,9 @@ app.controller('product-ctrl', function($scope, $http) {
 			console.log(response.data)
 			$scope.items.push(response.data);
 			$scope.reset();
-			alert('Thêm mới thành công');
+			Swal.fire('Thêm mới thành công', '', 'success')
 		}).catch(err => {
-			alert('Lỗi thêm mới sản phẩm');
+			Swal.fire('Lỗi thêm sản phẩm !', '', 'error')
 			console.log(item)
 			console.log("Erorr", err.data.errors);
 
@@ -91,22 +91,42 @@ app.controller('product-ctrl', function($scope, $http) {
 
 	// Xóa sản phẩm 
 	$scope.delete = function(item) {
-		$http.delete(`/rest/products/${item.id}`).then(function(response) {
-			var index = $scope.items.findIndex(p => p.id == item.id);
-			$scope.items.splice(index, 1);
-			$scope.reset();
-			alert('Xóa thành công');
+		Swal.fire({
+			title: 'Tài khoản sẽ không được xóa mà chỉ ẩn, bạn chắc chứ?',
+			showDenyButton: true,
+			showCancelButton: true,
+			confirmButtonText: `Xóa`,
+			denyButtonText: `Không xóa`,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				if (item.status == false) {
+					Swal.fire('Tài khoản đã bị xóa, không thể xóa nữa !', '', 'error');
+				} else {
+					$http.delete(`/rest/products/${item.id}`).then(function(response) {
+						$scope.reset();
+						Swal.fire('Đã xóa !', '', 'success')
+					}).catch(function(err) {
+						Swal.fire('Xóa không thành công !', '', 'error')
+						console.log("Erorr", err);
+					})
+				}
+				/*			$http.delete(`/rest/products/${item.id}`).then(function(response) {
+								var index = $scope.items.findIndex(p => p.id == item.id);
+								$scope.items.splice(index, 1);
+								$scope.reset();
+								Swal.fire('Đã xóa !', '', 'success')
+			
+							})*/
 
-		}).catch(function(err) {
-			alert('Lỗi xóa sản phẩm');
-			console.log("Erorr", err);
+			} else if (result.isDenied) {
+			}
 		})
 	}
 
 	$scope.imageChange = function(files) {
 		var data = new FormData();
 		data.append("file", files[0]);
-		$http.post('/rest/upload/images', data, {
+		$http.post('/rest/upload/images/product', data, {
 			transformRequest: angular.entity,
 			headers: {
 				'Content-Type': undefined

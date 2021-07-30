@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +100,7 @@
 								</thead>
 								<tbody>
 									<tr
-										dir-paginate="p in items| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+										dir-paginate="p in items|filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6">
 										<td>{{p.username}}</td>
 										<td>{{p.fullname}}</td>
 										<td>{{p.email}}</td>
@@ -130,12 +131,15 @@
 					<div class="panel-body">
 						<div class="col-md-12">
 							<div class="text-center">
-								<img ng-src="{{'/assets/images/' + form.photo}}"
+								<img id="uploadPreview"
+									ng-src="{{'/assets/images/user/' + form.photo}}"
 									class="avatar img-circle" alt="avatar" width="100px">
 								<h6>Tải lên hình ảnh...</h6>
 
-								<input type="file" class="form-control" ng-model="form.photo"
-									onchange="angular.element(this).scope().imageChange(this.files)">
+								<input type="file" class="form-control" id="uploadImage"
+									ng-model="form.photo" name="file"
+									ng-files="getTheFiles($files)"
+									onchange="angular.element(this).scope().imageChange();">
 							</div>
 						</div>
 						<div class="col-md-6">

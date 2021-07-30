@@ -23,8 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.asm_java6_pc00725.entity.Accounts;
+import com.asm_java6_pc00725.entity.Authorities;
+import com.asm_java6_pc00725.entity.ResponseHandler;
+import com.asm_java6_pc00725.entity.Roles;
 import com.asm_java6_pc00725.service.AccountsService;
 import com.asm_java6_pc00725.service.AuthoritesService;
+import com.asm_java6_pc00725.service.ParamService;
+import com.asm_java6_pc00725.service.RoleService;
 
 @CrossOrigin("*")
 @RestController
@@ -32,12 +37,15 @@ import com.asm_java6_pc00725.service.AuthoritesService;
 public class AccountRestController {
 	@Autowired
 	AuthoritesService authoritesService;
+
 	@Autowired
-
+	RoleService roleService;
+	@Autowired
 	AccountsService service;
-
 	@Autowired
 	HttpServletRequest request;
+	@Autowired
+	ParamService paramService;
 
 	@GetMapping()
 	public List<Accounts> getAccounts(@RequestParam("admins") Optional<Boolean> admin) {
@@ -59,7 +67,7 @@ public class AccountRestController {
 
 	@GetMapping("/my-account/{id}")
 	public Accounts findId(@PathVariable("id") String username) {
-		System.out.println(username);
+
 		return service.findById(username);
 	}
 
@@ -69,16 +77,23 @@ public class AccountRestController {
 	}
 
 	@PostMapping("/my-account/save")
-	public ResponseEntity<Accounts> saveMyAccount(@Valid @RequestBody Accounts account) {
-		HttpSession session = null;
-		session.setAttribute("account-method", "create");
-		System.out.println(session.getAttribute("account-method"));
-		if (account.getPhoto() != null) {
-			account.setPhoto(account.getPhoto());
+	public ResponseEntity saveMyAccount(@Valid @RequestBody Accounts account) {
+		if (account.getUsername() != null && !account.getUsername().isEmpty()
+				&& service.findById(account.getUsername()) != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Tài khoản đã tồn tại", "username",
+					null);
+		} else if (account.getEmail() != null && !account.getEmail().isEmpty()
+				&& service.findByEmail(account.getEmail()) != null) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, true, "Email đã tồn tại", "email", null);
 		} else {
-			account.setPhoto("user.png");
+
+			if (account.getPhoto() != null) {
+				account.setPhoto(account.getPhoto());
+			} else {
+				account.setPhoto("user.png");
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(this.service.save(account));
 		}
-		return new ResponseEntity<>(service.save(account), HttpStatus.OK);
 	}
 
 	@GetMapping("/list")

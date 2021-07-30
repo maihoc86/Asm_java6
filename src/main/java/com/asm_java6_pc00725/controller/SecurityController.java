@@ -51,6 +51,7 @@ public class SecurityController {
 
 	@RequestMapping("/security/unauthoried")
 	public String denied(Model model) {
+		model.addAttribute("message", "Bạn không có quyền truy xuất");
 		return "security/403";
 	}
 

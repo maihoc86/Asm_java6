@@ -1,6 +1,18 @@
 
 
 var app = angular.module('shopping-cart-app', []);
+app.directive('ngFiles', ['$parse', function($parse) {
+	function fn_link(scope, element, attrs) {
+		var onChange = $parse(attrs.ngFiles);
+		element.on('change', function(event) {
+			onChange(scope, { $files: event.target.files });
+		});
+	};
+
+	return {
+		link: fn_link
+	}
+}]);
 app.directive('passwordConfirm', ['$parse', function($parse) {
 	return {
 		restrict: 'A',
@@ -207,33 +219,48 @@ app.controller('profile', function($scope, $http) {
 			console.log("error", err)
 		})
 	}
-
+	var formdata = new FormData();
+	$scope.getTheFiles = function($files) {
+		console.log("vào đc đây hk")
+		angular.forEach($files, function(value, key) {
+			formdata.append("file", value);
+			console.log(value + " " + key)
+		});
+	};
 	$scope.update = function() {
 		var item = angular.copy($scope.formProfile);
-		$http.put(`/rest/accounts/my-account/${item.username}`, item).then(function(response) {
-			var index = $scope.itemsAll.findIndex(p => p.username == item.username);
-			$scope.itemsAll[index] = item;
-			alert('Cập nhật thành công');
-		}).catch(function(err) {
-			alert('Lỗi cập nhật tài khoản');
-			console.log("Erorr", err);
-		})
-
-	}
-	$scope.imageChange = function(files) {
-		var data = new FormData();
-		data.append("file", files[0]);
-		$http.post('/rest/upload/images/user', data, {
+		$http.post('/rest/upload/images/user', formdata, {
 			transformRequest: angular.entity,
 			headers: {
 				'Content-Type': undefined
 			}
 		}).then(response => {
-			$scope.formProfile.photo = response.data.name; // đây là đường dẫn của file
+			/*$scope.form.photo = response.data.name; // đây là đường dẫn của file*/
+			$http.put(`/rest/accounts/my-account/${item.username}`, item).then(function(response) {
+				var index = $scope.itemsAll.findIndex(p => p.username == item.username);
+				$scope.itemsAll[index] = item;
+				alert('Cập nhật thành công');
+			}).catch(function(err) {
+				alert('Lỗi cập nhật tài khoản');
+				console.log("Erorr", err);
+			})
 		}).catch(err => {
 			alert("Lỗi hình ảnh");
 			console.log("Erorr", err);
 		})
+	}
+
+	$scope.imageChange = function() {
+		console.log("vào đây chưa")
+		var oFReader = new FileReader();
+		oFReader
+			.readAsDataURL(document.getElementById("uploadImage").files[0]);
+		console.log(oFReader)
+		oFReader.onload = function(oFREvent) {
+			console.log("vào đây chưa 2")
+			document.getElementById("uploadPreview").src = oFREvent.target.result;
+		};
+
 	}
 	$scope.savePass = function() {
 		console.log('asdasd');
@@ -257,32 +284,47 @@ app.controller('profile', function($scope, $http) {
 app.controller('sign-up', function($scope, $http) {
 	/*	$scope.form.cfpassword = null;
 		$scope.form.password = null;*/
+	var formdata = new FormData();
+	$scope.getTheFiles = function($files) {
+		console.log("vào đc đây hk")
+		angular.forEach($files, function(value, key) {
+			formdata.append("file", value);
+			console.log(value + " " + key)
+		});
+	};
 	$scope.form = {};
 	$scope.create = function() {
 		var item = angular.copy($scope.form);
-		$http.post('/rest/accounts/my-account/save', item).then(function(response) {
-			alert('Đăng ký thành công');
-			location.href = "/security/login/form";
-		}).catch(error => {
-			alert('Lỗi đăng ký');
-			console.log("Erorr", error);
-		})
-	}
-	$scope.imageChange = function(files) {
-		var data = new FormData();
-		data.append("file", files[0]);
-		$http.post('/rest/upload/images', data, {
+		console.log(formdata)
+		$http.post('/rest/upload/images/user', formdata, {
 			transformRequest: angular.entity,
 			headers: {
 				'Content-Type': undefined
 			}
 		}).then(response => {
-			$scope.form.photo = response.data.name; // đây là đường dẫn của file
+			/*$scope.form.photo = response.data.name; // đây là đường dẫn của file*/
+			$http.post('/rest/accounts/my-account/save', item).then(function(response) {
+				alert('Đăng ký thành công');
+				location.href = "/security/login/form";
+			}).catch(error => {
+				alert('Lỗi đăng ký');
+				console.log("Erorr", error);
+			})
 		}).catch(err => {
 			alert("Lỗi hình ảnh");
 			console.log("Erorr", err);
 		})
 
+
+	}
+	$scope.imageChange = function() {
+		var oFReader = new FileReader();
+		oFReader
+			.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+		oFReader.onload = function(oFREvent) {
+			document.getElementById("uploadPreview").src = oFREvent.target.result;
+		};
 	}
 
 })

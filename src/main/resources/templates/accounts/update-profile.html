@@ -20,12 +20,14 @@
 				<!-- left column -->
 				<div class="col-md-3">
 					<div class="text-center">
-						<img th:src="@{|/assets/images/user/${account.photo}|}"
-							class="avatar img-circle" id="uploadPreview" alt="avatar"
-							width="100px">
+						<img id="uploadPreview"
+							th:src="@{|/assets/images/user/${account.photo}|}"
+							class="avatar img-circle" alt="avatar" width="100px">
 						<h6>[[#{profile.upload}]]</h6>
-						<input type="file" name="file" id="uploadImage"
-							class="form-control" onchange="PreviewImage();">
+
+						<input type="file" class="form-control" id="uploadImage"
+							name="file" ng-files="getTheFiles($files)"
+							onchange="angular.element(this).scope().imageChange();">
 					</div>
 				</div>
 

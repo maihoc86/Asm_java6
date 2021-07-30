@@ -74,7 +74,7 @@
 									</thead>
 									<tbody>
 										<tr
-											dir-paginate="acc in admins| itemsPerPage: 6 | filter:searchText">
+											dir-paginate="acc in admins| filter:searchText  | itemsPerPage: 6">
 											<td>{{acc.username}}</td>
 											<th ng-repeat="role in roles" class="text-center"><input
 												type="checkbox" ng-checked="authority_of(acc,role)"

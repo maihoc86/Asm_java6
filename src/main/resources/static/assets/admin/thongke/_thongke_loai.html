@@ -79,7 +79,7 @@
 									</thead>
 									<tbody>
 										<tr
-											dir-paginate="item in itemsThongKeLoai| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+											dir-paginate="item in itemsThongKeLoai| filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6">
 											<td>{{item.group.name}}</td>
 											<td>{{item.count}}</td>
 											<td>{{item.sum | number : 3}}đ</td>

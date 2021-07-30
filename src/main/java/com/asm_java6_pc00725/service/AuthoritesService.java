@@ -16,4 +16,6 @@ public interface AuthoritesService {
 	void delete(Integer id);
 	List<Accounts> getAdmin(String username);
 
+	 Accounts findRole(String remoteUser);
+
 }

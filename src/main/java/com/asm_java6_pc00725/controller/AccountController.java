@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +45,10 @@ public class AccountController {
 	}
 
 	@GetMapping("/sign-up")
-	public String showViewSignUp() {
-
+	public String showViewSignUp(Model model) {
+		if (request.getRemoteUser() != null) {
+			return "redirect:/product/list";
+		}
 		return "accounts/sign-up";
 	}
 

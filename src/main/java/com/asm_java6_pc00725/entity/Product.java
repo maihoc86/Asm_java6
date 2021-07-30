@@ -54,6 +54,7 @@ public class Product implements Serializable {
 	@Size(max = 500, message = "Mô tả phải có độ dài ký tự dưới 500")
 	String description;
 
+	@NotNull(message = "Vui lòng nhập loại sản phẩm")
 	@ManyToOne
 	@JoinColumn(name = "Categoryid")
 	Category category;

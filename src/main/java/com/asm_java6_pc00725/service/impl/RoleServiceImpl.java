@@ -14,10 +14,16 @@ public class RoleServiceImpl implements RoleService {
 
 	@Autowired
 	RoleDAO dao;
-	
+
 	@Override
 	public List<Roles> findAll() {
 		return dao.findAll();
+	}
+
+	@Override
+	public Roles findById(String role) {
+		// TODO Auto-generated method stub
+		return dao.findById(role).get();
 	}
 
 }

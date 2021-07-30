@@ -104,7 +104,7 @@
 									</thead>
 									<tbody>
 										<tr
-											dir-paginate="item in items| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+											dir-paginate="item in items| filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6">
 											<td>{{item.id}}</td>
 											<td>{{item.order.account.fullname}}</td>
 											<td>{{item.order.address }}</td>

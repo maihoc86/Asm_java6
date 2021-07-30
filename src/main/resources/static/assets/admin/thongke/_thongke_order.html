@@ -77,7 +77,7 @@
 									</thead>
 									<tbody>
 										<tr
-											dir-paginate="item in itemsThongKeOrder| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+											dir-paginate="item in itemsThongKeOrder| filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6">
 											<td>{{item.group.product.name}}</td>
 											<td>{{item.group.order.account.username}}</td>
 											<td>{{item.group.order.createDate}}</td>

@@ -135,12 +135,20 @@
 
 		<div class="col-sm-6">
 			<div class="text-center">
-				<img ng-src="{{'/assets/images/' + form.photo}}"
+				<!-- <img ng-src="{{'/assets/images/user/' + form.photo}}"
 					class="avatar img-circle" alt="avatar" width="100px">
 				<h6>Tải lên hình ảnh...</h6>
 
 				<input type="file" class="form-control" ng-model="form.photo"
-					onchange="angular.element(this).scope().imageChange(this.files)">
+					onchange="angular.element(this).scope().imageChange(this.files)"> -->
+
+				<img id="uploadPreview" class="avatar img-circle" alt="avatar"
+					width="100px">
+				<h6>Tải lên hình ảnh...</h6>
+
+				<input type="file" class="form-control" id="uploadImage" name="file"
+					ng-files="getTheFiles($files)"
+					onchange="angular.element(this).scope().imageChange();">
 			</div>
 		</div>
 	</main>

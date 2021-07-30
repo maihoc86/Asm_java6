@@ -68,13 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().cors().disable();
 		http.authorizeRequests().antMatchers("/order/**", "/my-account/**").authenticated()
 				.antMatchers("/assets/admin/**").hasAnyRole("STAF", "DIRE", "Ad").antMatchers("/rest/authorities")
-				.hasAnyRole("DIRE", "Ad").anyRequest().permitAll();
+				.hasAnyRole("DIRE", "Ad", "STAF").anyRequest().permitAll();
 
 		http.formLogin().loginPage("/security/login/form") // form dang nhap
 				.loginProcessingUrl("/security/login") // action
-				.defaultSuccessUrl("/security/login/success", false).failureUrl("/security/login/error") // đăng nhập
+				.defaultSuccessUrl("/security/login/success", false).failureUrl("/security/login/error") // đăng nhập //
 																											// sai hoặc
-																											// lỗi
+																											// // lỗi
 				.usernameParameter("username").passwordParameter("password"); // default [username] [password]
 		http.oauth2Login().loginPage("/security/login/form").defaultSuccessUrl("/oauth2/login/success", true)
 				.failureUrl("/security/login/error").authorizationEndpoint().baseUri("/oauth2/authorization")

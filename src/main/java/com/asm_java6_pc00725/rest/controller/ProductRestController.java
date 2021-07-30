@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.asm_java6_pc00725.entity.Product;
 import com.asm_java6_pc00725.entity.Report;
+import com.asm_java6_pc00725.entity.ResponseHandler;
 import com.asm_java6_pc00725.service.ProductService;
 
 @CrossOrigin("*")

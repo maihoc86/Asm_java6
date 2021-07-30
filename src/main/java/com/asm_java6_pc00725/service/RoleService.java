@@ -7,5 +7,5 @@ import com.asm_java6_pc00725.entity.Roles;
 public interface RoleService {
 
 	 List<Roles> findAll();
-	
+	 Roles findById(String role);
 }

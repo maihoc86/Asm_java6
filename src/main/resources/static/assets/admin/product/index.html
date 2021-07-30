@@ -57,13 +57,7 @@
 											placeholder="Nhập vào tên sản phẩm..." class="form-control"
 											ng-model="searchText.name">
 									</div>
-									<!-- 		<div class="filter-group">
-										<label>Sắp xếp</label> <select class="form-control"
-											ng-model="orders">
-											<option ng-value="'-price'">Giá từ cao xuống thấp</option>
-											<option ng-value="'price'">Giá từ thấp đến cao</option>
-										</select>
-									</div> -->
+
 									<div class="filter-group">
 										<label>Lọc</label> <select class="form-control"
 											ng-init="searchText.available = true"
@@ -100,7 +94,7 @@
 							</thead>
 							<tbody>
 								<tr
-									dir-paginate="p in items| itemsPerPage: 6 | filter:searchText |orderBy:sortKey:reverse">
+									dir-paginate="p in items| filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6">
 									<td>{{p.id}}</td>
 									<td>{{p.category.id}}
 									<td>{{p.name}}</td>
@@ -131,7 +125,7 @@
 				<div class="panel-body">
 					<div class="col-md-6" style="float: none; margin: auto;">
 						<div class="text-center">
-							<img ng-src="{{'/assets/images/' + form.image}}"
+							<img ng-src="{{'/assets/images/product/' + form.image}}"
 								class="avatar img-thumbnail" alt="avatar" width="190px">
 							<h6>hoanthaihoc.jpg</h6>
 							<input type="file" class="form-control" id="image"
@@ -139,8 +133,6 @@
 								onchange="angular.element(this).scope().imageChange(this.files)" />
 						</div>
 					</div>
-
-
 					<div class="col-md-6" style="margin-top: 20px">
 						<div class="form-group">
 							<div>Tên sản phẩm</div>
@@ -165,8 +157,11 @@
 							<div>Loại</div>
 							<select class="form-control" ng-model="form.category.id">
 								<option ng-repeat="c in cates" ng-value="c.id"
-									selected="selected">{{c.name}}</option>
+									ng-selected="selected">{{c.name}}</option>
 							</select>
+							<div class="alert alert-danger" ng-repeat="value in error"
+								ng-if="error != null && value.field == 'category'"
+								ng-bind="value.defaultMessage"></div>
 						</div>
 						<div class="form-group">
 							<div>Tạo ngày</div>

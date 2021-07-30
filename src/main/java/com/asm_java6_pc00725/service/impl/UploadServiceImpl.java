@@ -22,11 +22,6 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public File save(MultipartFile file, String folder) {
 		try {
-			/*
-			 * String serverpath =
-			 * ResourceUtils.getURL("classpath:static").getPath().replace("%20",
-			 * " ").replace('/', '\\'); String pathFilePath = serverpath.substring(1);
-			 */
 			File dirFile = new File(context.getRealPath("/assets/") + folder);
 			dirFile.getParentFile().mkdirs();
 			if (!dirFile.exists()) {

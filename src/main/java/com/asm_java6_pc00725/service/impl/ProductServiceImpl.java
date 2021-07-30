@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product create(Product product) {
-		return dao.save(product);
+		return dao.saveAndFlush(product);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void deleteById(Integer id) {
-		dao.deleteById(id);
+		dao.updateStatus(id);
 	}
 
 	@Override

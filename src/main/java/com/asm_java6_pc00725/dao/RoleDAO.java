@@ -6,4 +6,5 @@ import com.asm_java6_pc00725.entity.Roles;
 
 public interface RoleDAO extends JpaRepository<Roles, String>{
 
+
 }

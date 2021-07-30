@@ -3,6 +3,8 @@ package com.asm_java6_pc00725.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.asm_java6_pc00725.entity.Accounts;
 import com.asm_java6_pc00725.entity.Authorities;
 import com.asm_java6_pc00725.service.AuthoritesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/rest/authorities")
 public class AuthoritiesRestController {
+
+	@Autowired
+	HttpServletRequest request;
 
 	@Autowired
 	AuthoritesService service;
@@ -36,8 +42,12 @@ public class AuthoritiesRestController {
 
 	@PostMapping
 	public Authorities post(@RequestBody Authorities authorities) {
-		System.out.println("ALo2");
 		return service.save(authorities);
+	}
+
+	@GetMapping("/checkrole")
+	public Accounts getRole() {
+		return service.findRole(request.getRemoteUser());
 	}
 
 	@DeleteMapping("{id}")

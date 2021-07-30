@@ -79,7 +79,7 @@
 							</thead>
 							<tbody>
 								<tr
-									dir-paginate="p in items | itemsPerPage: 6 | filter:searchText | orderBy:sortKey:reverse">
+									dir-paginate="p in items | filter:searchText  | orderBy:sortKey:reverse| itemsPerPage: 6 ">
 									<td>{{p.id}}</td>
 									<td>{{p.name}}</td>
 									<td>
@@ -129,17 +129,17 @@
 						</div>
 
 					</div>
+					<div class="panel-footer">
 						<div class="panel-footer">
-							<div class="panel-footer">
-								<button ng-click="create()" class="btn btn-primary"
-									id="btn-create">Thêm</button>
-								<button ng-click="update()" class="btn btn-success"
-									id="btn-update" disabled="disabled">Sửa</button>
-								<button ng-click="delete(form)" class="btn btn-danger"
-									id="btn-delete" disabled="disabled">Xóa</button>
-								<button ng-click="reset()" class="btn btn-info" id="btn-reset">
-									Làm mới</button>
-							</div>
+							<button ng-click="create()" class="btn btn-primary"
+								id="btn-create">Thêm</button>
+							<button ng-click="update()" class="btn btn-success"
+								id="btn-update" disabled="disabled">Sửa</button>
+							<button ng-click="delete(form)" class="btn btn-danger"
+								id="btn-delete" disabled="disabled">Xóa</button>
+							<button ng-click="reset()" class="btn btn-info" id="btn-reset">
+								Làm mới</button>
+						</div>
 					</div>
 				</div>
 			</div>

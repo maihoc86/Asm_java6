@@ -50,4 +50,10 @@ public class AuthoritiesServiceImpl implements AuthoritesService {
 		return dao.findAdmin(username);
 	}
 
+	@Override
+	public Accounts findRole(String remoteUser) {
+		// TODO Auto-generated method stub
+		return dao.findRoleDire(remoteUser);
+	}
+
 }
